@@ -26,8 +26,7 @@ public class GridDimensionsAttribute : ValidationAttribute
         
         if (grid.GetLength(0) != boardDto.Width || grid.GetLength(1) != boardDto.Height)
         {
-            return new ValidationResult(
-                $"Grid dimensions ({grid.GetLength(0)},{grid.GetLength(1)}) do not match the specified width and height ({boardDto.Width},{boardDto.Height})");
+            return new ValidationResult("Grid dimensions do not match the specified width and height");
         }
 
         return ValidationResult.Success;

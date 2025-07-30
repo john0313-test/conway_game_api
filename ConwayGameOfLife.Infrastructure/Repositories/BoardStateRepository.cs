@@ -77,7 +77,16 @@ public class BoardStateRepository : IBoardStateRepository
     {
         try
         {
-            _dbContext.BoardStates.Update(boardState);
+            // First check if the entity is already being tracked
+            var existingEntity = await _dbContext.BoardStates.FindAsync(new object[] { boardState.Id }, cancellationToken);
+            if (existingEntity != null)
+            {
+                // Detach the existing entity to avoid tracking conflicts
+                _dbContext.Entry(existingEntity).State = EntityState.Detached;
+            }
+            
+            // Now attach and mark as modified
+            _dbContext.Entry(boardState).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync(cancellationToken);
             return boardState;
         }

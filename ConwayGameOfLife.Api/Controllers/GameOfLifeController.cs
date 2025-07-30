@@ -62,7 +62,11 @@ public class GameOfLifeController : ControllerBase
     {
         try
         {
-            // Model validation is handled automatically by the [ApiController] attribute
+            // Manual validation for grid dimensions
+            if (boardDto.Grid.GetLength(0) != boardDto.Width || boardDto.Grid.GetLength(1) != boardDto.Height)
+            {
+                return BadRequest("Grid dimensions do not match the specified width and height");
+            }
             
             // Create a board from the DTO
             var board = Board.FromGrid(boardDto.Grid);
