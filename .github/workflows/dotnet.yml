@@ -45,5 +45,6 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
         
-    - name: Build
-      uses: docker/build-action@v4
+    - name: Build Docker image
+      run: |
+        docker build -t conway-game-api:latest .
